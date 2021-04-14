@@ -5,17 +5,21 @@
  */
 package ittapiros;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author varad
  */
 public class JatekFelulet extends javax.swing.JFrame {
 
+    private int piros;
+
     /**
      * Creates new form JatekFelulet
      */
     public JatekFelulet() {
-        initComponents();
+        kezd();
     }
 
     /**
@@ -28,9 +32,9 @@ public class JatekFelulet extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnEgy = new javax.swing.JButton();
+        btnKetto = new javax.swing.JButton();
+        btnHarom = new javax.swing.JButton();
         lbTalaltE = new javax.swing.JLabel();
         cbUjraoszt = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -47,17 +51,32 @@ public class JatekFelulet extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout());
 
-        jButton2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton2.setText("2 pohár");
-        jPanel1.add(jButton2);
+        btnEgy.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnEgy.setText("1");
+        btnEgy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEgyActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEgy);
 
-        jButton3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton3.setText("3 pohár");
-        jPanel1.add(jButton3);
+        btnKetto.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnKetto.setText("2");
+        btnKetto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKettoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnKetto);
 
-        jButton1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton1.setText("1 pohár");
-        jPanel1.add(jButton1);
+        btnHarom.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btnHarom.setText("3");
+        btnHarom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHaromActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHarom);
 
         lbTalaltE.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lbTalaltE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -69,6 +88,11 @@ public class JatekFelulet extends javax.swing.JFrame {
         mnuFajl.setText("Fájl");
 
         mnuUjJatek.setText("Új játék");
+        mnuUjJatek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUjJatekActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuUjJatek);
 
         mnuMentes.setText("Mentés");
@@ -99,7 +123,7 @@ public class JatekFelulet extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbTalaltE, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                    .addComponent(lbTalaltE, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cbUjraoszt)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -111,14 +135,61 @@ public class JatekFelulet extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbTalaltE, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                .addGap(79, 79, 79)
                 .addComponent(cbUjraoszt)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEgyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEgyActionPerformed
+        if (cbUjraoszt.isSelected()) {
+            golyotElhelyez();
+        }
+        TalaltE(btnEgy);
+
+    }//GEN-LAST:event_btnEgyActionPerformed
+
+
+    private void btnKettoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKettoActionPerformed
+        if (cbUjraoszt.isSelected()) {
+            golyotElhelyez();
+        }
+        TalaltE(btnKetto);
+    }//GEN-LAST:event_btnKettoActionPerformed
+
+    private void btnHaromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHaromActionPerformed
+        if (cbUjraoszt.isSelected()) {
+            golyotElhelyez();
+        }
+        TalaltE(btnHarom);
+    }//GEN-LAST:event_btnHaromActionPerformed
+
+    private void mnuUjJatekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUjJatekActionPerformed
+       lbTalaltE.setText("");
+       golyotElhelyez();
+       cbUjraoszt.setSelected(false);
+       kezd();
+       
+
+    }//GEN-LAST:event_mnuUjJatekActionPerformed
+
+    public void kezd() {
+        initComponents();
+        golyotElhelyez();
+
+    }
+
+    private void TalaltE(JButton gomb) {
+        int szam = Integer.parseInt(gomb.getText());
+        if (szam == piros) {
+            lbTalaltE.setText("Eltaláltad!");
+        } else {
+            lbTalaltE.setText("Nem találtad el!");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -152,14 +223,16 @@ public class JatekFelulet extends javax.swing.JFrame {
             public void run() {
                 new JatekFelulet().setVisible(true);
             }
+
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEgy;
+    private javax.swing.JButton btnHarom;
+    private javax.swing.JButton btnKetto;
     private javax.swing.JCheckBox cbUjraoszt;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbTalaltE;
@@ -171,4 +244,8 @@ public class JatekFelulet extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuNegyP;
     private javax.swing.JMenuItem mnuUjJatek;
     // End of variables declaration//GEN-END:variables
+
+    private void golyotElhelyez() {
+        piros = (int) (Math.random() * 3) + 1;
+    }
 }
