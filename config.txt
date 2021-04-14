@@ -1,0 +1,2 @@
+Helyzet;EltalaltaE;Ujraosztas
+1;true;true

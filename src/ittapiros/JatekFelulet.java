@@ -5,21 +5,33 @@
  */
 package ittapiros;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author varad
  */
+
+
+
 public class JatekFelulet extends javax.swing.JFrame {
 
     private int piros;
+    private boolean eltalalta;
 
     /**
      * Creates new form JatekFelulet
      */
     public JatekFelulet() {
         kezd();
+        fajltEllenoriz();
+        eltalalta = false;
     }
 
     /**
@@ -96,9 +108,19 @@ public class JatekFelulet extends javax.swing.JFrame {
         mnuFajl.add(mnuUjJatek);
 
         mnuMentes.setText("Mentés");
+        mnuMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMentesActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuMentes);
 
         mnuBetoltes.setText("Betöltés");
+        mnuBetoltes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBetoltesActionPerformed(evt);
+            }
+        });
         mnuFajl.add(mnuBetoltes);
 
         jMenuBar1.add(mnuFajl);
@@ -168,15 +190,30 @@ public class JatekFelulet extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHaromActionPerformed
 
     private void mnuUjJatekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUjJatekActionPerformed
-       lbTalaltE.setText("");
-       golyotElhelyez();
-       cbUjraoszt.setSelected(false);
-       kezd();
-       
+        lbTalaltE.setText("");
+        golyotElhelyez();
+        cbUjraoszt.setSelected(false);
+        kezd();
+
 
     }//GEN-LAST:event_mnuUjJatekActionPerformed
 
-    public void kezd() {
+    private void mnuMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMentesActionPerformed
+        try {
+            fajlbaIras();
+            JOptionPane.showMessageDialog(null, "A játék elmentve!");
+        } catch (IOException ex) {
+           JOptionPane.showMessageDialog(null, "Nem sikerült a mentés!");
+        }
+
+
+    }//GEN-LAST:event_mnuMentesActionPerformed
+
+    private void mnuBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBetoltesActionPerformed
+      betolt();
+    }//GEN-LAST:event_mnuBetoltesActionPerformed
+
+    private void kezd() {
         initComponents();
         golyotElhelyez();
 
@@ -185,6 +222,7 @@ public class JatekFelulet extends javax.swing.JFrame {
     private void TalaltE(JButton gomb) {
         int szam = Integer.parseInt(gomb.getText());
         if (szam == piros) {
+            eltalalta = true;
             lbTalaltE.setText("Eltaláltad!");
         } else {
             lbTalaltE.setText("Nem találtad el!");
@@ -247,5 +285,42 @@ public class JatekFelulet extends javax.swing.JFrame {
 
     private void golyotElhelyez() {
         piros = (int) (Math.random() * 3) + 1;
+        eltalalta = false;
     }
+
+    private void fajlbaIras() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String elvalaszto = ";";
+        sb.append("Helyzet").append(elvalaszto).append("EltalaltaE").append(elvalaszto).append("Ujraosztas").append("\n");
+        sb.append(piros).append(elvalaszto);
+        sb.append(eltalalta).append(elvalaszto);
+        sb.append(cbUjraoszt.isSelected());
+        Files.write(Paths.get("config.txt"), sb.toString().getBytes());
+    }
+    
+    public void betolt(){
+        try {
+             List<String> sorok = Files.readAllLines(Paths.get("config.txt"));
+             ArrayList<Adatok> adatok = new ArrayList<>();
+             for (int i = 1; i < sorok.size(); i++) {
+                String sor = sorok.get(i);
+                adatok.add(new Adatok(sor));
+            }             
+             Adatok adat = adatok.get(0);
+             piros = adat.getHelyzet();
+             eltalalta = adat.isEltalaltaE();
+             cbUjraoszt.setSelected(adat.isUjraosztas());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Nem sikerült betölteni az adatokat!");
+        }
+       
+    }
+
+    private void fajltEllenoriz() {
+       
+    }
+    
+    
+    
+    
 }
