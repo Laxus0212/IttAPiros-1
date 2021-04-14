@@ -299,6 +299,7 @@ public class JatekFelulet extends javax.swing.JFrame {
     }
     
     public void betolt(){
+        fajltEllenoriz();
         try {
              List<String> sorok = Files.readAllLines(Paths.get("config.txt"));
              ArrayList<Adatok> adatok = new ArrayList<>();
@@ -317,7 +318,9 @@ public class JatekFelulet extends javax.swing.JFrame {
     }
 
     private void fajltEllenoriz() {
-       
+        if (Files.exists(Paths.get("tipp.deb"))) {
+            this.setTitle(piros + "");
+        }
     }
     
     
